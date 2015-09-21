@@ -32,4 +32,27 @@ class Faqs extends \_DefaultController {
 		$ArticleMax=DAO::getOne("Faq","id=(SELECT max(id) FROM Faq)");
 		echo $ArticleMax;
 	}
+	
+	
+	
+	public function cfaq(){
+		//sujet les plus populaire
+		$faqs=DAO::getAll("Faq","1=1 order by popularity limit 10");
+		$this->loadView("faq/vPopulaire",array("faqs"=>$faqs,"title"=>"Sujets les plus populaire"));
+		//sujet les plus récents
+		$faqs=DAO::getAll("Faq","1=1 order by dateCreation limit 10");
+		$this->loadView("faq/vFaqs",array("faqs"=>$faqs,"title"=>"Sujets les plus recents"));
+		//sujet par catégorie
+		$faqs=DAO::getAll("Faq","1=1 order by idCategorie limit 10");
+		$this->loadView("faq/vCate",array("faqs"=>$faqs));
+
+		//$faqs=DAO::getAll("Faq","1=1 order by dateCreation limit 1,10");
+		//foreach ($faqs as $faq){
+		//	echo $faq."<br>";
+		//}
+		
+		//echo DAO::$db->query("SELECT max(id) FROM Faq")->fetchColumn();
+		//$ArticleMax=DAO::getOne("Faq","id=(SELECT max(id) FROM Faq)");
+		//echo $ArticleMax;
+	}
 }
