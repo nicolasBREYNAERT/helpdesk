@@ -2,6 +2,7 @@
 use micro\orm\DAO;
 use micro\js\Jquery;
 use micro\views\Gui;
+use micro\utils\RequestUtils;
 /**
  * Gestion des tickets
  * @author jcheron
@@ -44,12 +45,24 @@ class Tickets extends \_DefaultController {
 		}else{
 			$cat=$ticket->getCategorie()->getId();
 		}
-		$listCat=Gui::select($categories,$cat,"Sélectionner une catégorie ...");
-		$listType=Gui::select(array("demande","intervention"),$ticket->getType(),"Sélectionner un type ...");
+		
+		$statut=DAO::getAll("Statut");
+		if($ticket->getStatut()==null){
+			$stat=-1;
+		}else{
+			$stat=$ticket->getStatut()->getId();
+		}
+		
+		$listCat=Gui::select($categories,$cat,"SÃ©lectionner une catÃ©gorie ...");
+		$listType=Gui::select(array("demande","intervention"),$ticket->getType(),"SÃ©lectionner un type ...");
+		$listStatut=Gui::select($statut,$stat,"SÃ©lectionner un statut ...");
+		
+		
 
-		$this->loadView("ticket/vAdd",array("ticket"=>$ticket,"listCat"=>$listCat,"listType"=>$listType));
+		$this->loadView("ticket/vAdd",array("ticket"=>$ticket,"listCat"=>$listCat,"listType"=>$listType, "listStatut"=>$listStatut));
 		echo Jquery::execute("CKEDITOR.replace( 'description');");
 	}
+	
 
 	/* (non-PHPdoc)
 	 * @see _DefaultController::setValuesToObject()
@@ -64,6 +77,19 @@ class Tickets extends \_DefaultController {
 		$object->setUser($user);
 	}
 
+	
+	protected function setValuesToObject(&$object) {
+		parent::setValuesToObject($object);
+		$categorie=DAO::getOne("Categorie", $_POST["idCategorie"]);
+		$object->setCategorie($categorie);
+		$statut=DAO::getOne("Statut", $_POST["idStatut"]);
+		$object->setStatut($statut);
+		$user=DAO::getOne("User", $_POST["idUser"]);
+		$object->setUser($user);
+		/* A MODIFIER !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+		$notif=new DisplayedMessage($this->model." `{$object->toString()}` mis à jour");
+	}
+	
 	/* (non-PHPdoc)
 	 * @see _DefaultController::getInstance()
 	 */
@@ -73,8 +99,8 @@ class Tickets extends \_DefaultController {
 			$obj->setType("intervention");
 		if($obj->getStatut()===NULL){
 			$statut=DAO::getOne("Statut", 1);
-			$obj->setStatut($statut);
-		}
+			$obj->setStatut($statut);}
+		
 		if($obj->getUser()===NULL){
 			$obj->setUser(Auth::getUser());
 		}
@@ -97,11 +123,36 @@ class Tickets extends \_DefaultController {
 	 */
 	public function onInvalidControl() {
 		$this->initialize();
-		$this->messageDanger("<strong>Autorisation refusée</strong>,<br>Merci de vous connecter pour accéder à ce module.&nbsp;".Auth::getInfoUser("danger"));
+		$this->messageDanger("<strong>Autorisation refusÃ©e</strong>,<br>Merci de vous connecter pour accÃ©der Ã  ce module.&nbsp;".Auth::getInfoUser("danger"));
 		$this->finalize();
 		exit;
 	}
 
+	public function update(){
+		if(RequestUtils::isPost()){
+			$className=$this->model;
+			$object=new $className();
+			$this->setValuesToObject($object);
+			if($_POST["id"]){
+				try{
+					DAO::update($object);
+					$msg=new DisplayedMessage($this->model." `{$object->toString()}` mis à jour");
+					/* ICI JE CREE UN MESSAGE */
+					
+				}catch(Exception $e){
+					$msg=new DisplayedMessage("Impossible de modifier l'instance de ".$this->model,"danger");
+				}
+			}else{
+				try{
+					DAO::insert($object);
+					$msg=new DisplayedMessage("Instance de ".$this->model." `{$object->toString()}` ajoutée");
+				}catch(Exception $e){
+					$msg=new DisplayedMessage("Impossible d'ajouter l'instance de ".$this->model,"danger");
+				}
+			}
+			$this->forward(get_class($this),"index",$msg);
+		}
+	}
 
 
 }
