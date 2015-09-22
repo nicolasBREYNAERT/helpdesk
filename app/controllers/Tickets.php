@@ -16,6 +16,24 @@ class Tickets extends \_DefaultController {
 		$this->model="Ticket";
 	}
 
+	public function index() {
+		$ticket=DAO::getAll("Ticket");
+		echo "<table class='table table-striped'>";
+		echo "<tbody>";
+		foreach ($ticket as $t){
+			echo "<tr>";
+			echo "<td>".$t->getTitre()."</td>";
+			echo "<td class='td-center'><a class='btn btn-primary btn-xs' href='tickets/updateStatut/".$t->getId()."'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a></td>".
+					"<td class='td-center'><a class='btn btn-primary btn-xs' href='tickets/frm/".$t->getId()."'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a></td>".
+					"<td class='td-center'><a class='btn btn-warning btn-xs' href='tickets/delete/".$t->getId()."'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></a></td>";
+			echo "</tr>";
+		}
+		echo "</tbody>";
+		echo "</table>";
+		echo "<a class='btn btn-primary' href='tickets/frm'>Ajouter...</a>"; 
+	}
+	
+	
 	public function messages($id){
 		$ticket=DAO::getOne("Ticket", $id[0]);
 		if($ticket!=NULL){
@@ -63,6 +81,20 @@ class Tickets extends \_DefaultController {
 		echo Jquery::execute("CKEDITOR.replace( 'description');");
 	}
 	
+	public function updateStatut($id=NULL){
+		$ticket=$this->getInstance($id);	
+		$statut=DAO::getAll("Statut");
+		if($ticket->getStatut()==null){
+			$stat=-1;
+		}else{
+			$stat=$ticket->getStatut()->getId();
+		}
+	
+		$listStatut=Gui::select($statut,$stat,"SÃ©lectionner un statut ...");
+		
+		$this->loadView("ticket/vStatut",array("ticket"=>$ticket, "listStatut"=>$listStatut));
+	}
+	
 
 	/* (non-PHPdoc)
 	 * @see _DefaultController::setValuesToObject()
@@ -77,18 +109,6 @@ class Tickets extends \_DefaultController {
 		$object->setUser($user);
 	}
 
-	
-	protected function setValuesToObject(&$object) {
-		parent::setValuesToObject($object);
-		$categorie=DAO::getOne("Categorie", $_POST["idCategorie"]);
-		$object->setCategorie($categorie);
-		$statut=DAO::getOne("Statut", $_POST["idStatut"]);
-		$object->setStatut($statut);
-		$user=DAO::getOne("User", $_POST["idUser"]);
-		$object->setUser($user);
-		/* A MODIFIER !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
-		$notif=new DisplayedMessage($this->model." `{$object->toString()}` mis à jour");
-	}
 	
 	/* (non-PHPdoc)
 	 * @see _DefaultController::getInstance()
