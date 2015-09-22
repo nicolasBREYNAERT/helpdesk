@@ -78,17 +78,7 @@ class Tickets extends \_DefaultController {
 	}
 
 	
-	protected function setValuesToObject(&$object) {
-		parent::setValuesToObject($object);
-		$categorie=DAO::getOne("Categorie", $_POST["idCategorie"]);
-		$object->setCategorie($categorie);
-		$statut=DAO::getOne("Statut", $_POST["idStatut"]);
-		$object->setStatut($statut);
-		$user=DAO::getOne("User", $_POST["idUser"]);
-		$object->setUser($user);
-		/* A MODIFIER !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
-		$notif=new DisplayedMessage($this->model." `{$object->toString()}` mis à jour");
-	}
+
 	
 	/* (non-PHPdoc)
 	 * @see _DefaultController::getInstance()

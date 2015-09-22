@@ -33,7 +33,12 @@ class Faqs extends \_DefaultController {
 		echo $ArticleMax;
 	}
 	
-	
+	public function contenu($id){
+		$a=$this->getInstance($id);
+		$contenu=$a->getContenu();
+		$titre=$a->getTitre();
+		$this->loadView("faq/vContenu",array("faqs"=>$a,"title"=>$titre,"contenu"=>$contenu));
+	}
 	
 	public function cfaq(){
 		//sujet les plus populaire
