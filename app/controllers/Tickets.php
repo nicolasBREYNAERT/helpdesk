@@ -16,6 +16,24 @@ class Tickets extends \_DefaultController {
 		$this->model="Ticket";
 	}
 
+	public function index() {
+		$ticket=DAO::getAll("Ticket");
+		echo "<table class='table table-striped'>";
+		echo "<tbody>";
+		foreach ($ticket as $t){
+			echo "<tr>";
+			echo "<td>".$t->getTitre()." - ".$t->getUser()." - ".$t->getStatut()."</td>";
+			echo "<td class='td-center'><a class='btn btn-primary btn-xs' href='tickets/updateStatut/".$t->getId()."'>Statut</a></td>".
+					"<td class='td-center'><a class='btn btn-primary btn-xs' href='tickets/frm/".$t->getId()."'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a></td>".
+					"<td class='td-center'><a class='btn btn-warning btn-xs' href='tickets/delete/".$t->getId()."'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></a></td>";
+			echo "</tr>";
+		}
+		echo "</tbody>";
+		echo "</table>";
+		echo "<a class='btn btn-primary' href='tickets/frm'>Ajouter...</a>"; 
+	}
+	
+	
 	public function messages($id){
 		$ticket=DAO::getOne("Ticket", $id[0]);
 		if($ticket!=NULL){
@@ -63,6 +81,21 @@ class Tickets extends \_DefaultController {
 		echo Jquery::execute("CKEDITOR.replace( 'description');");
 	}
 	
+	public function updateStatut($id=NULL){
+		$ticket=$this->getInstance($id);	
+		$statut=DAO::getAll("Statut");
+		if($ticket->getStatut()==null){
+			$stat=-1;
+		}
+		else{
+			$stat=$ticket->getStatut()->getId();
+		}
+	
+		$listStatut=Gui::select($statut,$stat,"SÃ©lectionner un statut ...");
+		$statuts=DAO::getAll("Statut", "1=1");
+		$this->loadView("ticket/vStatut",array("ticket"=>$ticket, "listStatut"=>$statuts));
+	}
+	
 
 	/* (non-PHPdoc)
 	 * @see _DefaultController::setValuesToObject()
@@ -79,7 +112,10 @@ class Tickets extends \_DefaultController {
 
 	
 
+
+
 	
+
 	/* (non-PHPdoc)
 	 * @see _DefaultController::getInstance()
 	 */
