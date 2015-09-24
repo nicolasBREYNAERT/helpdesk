@@ -34,10 +34,29 @@ class Faqs extends \_DefaultController {
 	}
 	
 	public function contenu($id){
-		$a=$this->getInstance($id);
+		$faqMin=DAO::getOne("Faq","1=1 limit 1");
+		$min=$faqMin->getId();
+		$id=intval($id);
+		if($id<$min){
+			$id=$id+1;
+			$a=$this->getInstance((string)$id);
+		}else{
+			$a=$this->getInstance($id);
+			//ajout d'un de popularité
+			$popularity=$a->getPopularity();
+			$popularity=$popularity + 1;
+			$a->setPopularity($popularity);
+			//mettre à jour a dans la base
+			DAO::update($a);
+		}
+		$test=$a->getPopularity();
+		//chargement de la vue
 		$contenu=$a->getContenu();
 		$titre=$a->getTitre();
-		$this->loadView("faq/vContenu",array("faqs"=>$a,"title"=>$titre,"contenu"=>$contenu));
+		$user=$a->getUser();
+		$version=$a->getVersion();
+		$dateCreation=$a->getDateCreation();
+		$this->loadView("faq/vContenu",array("faqs"=>$a,"title"=>$titre,"contenu"=>$contenu,"a"=>$test,"user"=>$user,"version"=>$version,"dateCreation"=>$dateCreation));
 	}
 	
 	public function cfaq(){
