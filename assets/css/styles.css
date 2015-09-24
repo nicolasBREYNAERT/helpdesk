@@ -77,3 +77,6 @@ body{
 .td-center{
 	text-align: center;
 }
+input:disabled+label {
+    color: #ccc;!important
+}

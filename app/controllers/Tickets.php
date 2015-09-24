@@ -22,8 +22,8 @@ class Tickets extends \_DefaultController {
 		echo "<tbody>";
 		foreach ($ticket as $t){
 			echo "<tr>";
-			echo "<td>".$t->getTitre()."</td>";
-			echo "<td class='td-center'><a class='btn btn-primary btn-xs' href='tickets/updateStatut/".$t->getId()."'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a></td>".
+			echo "<td>".$t->getTitre()." - ".$t->getUser()." - ".$t->getStatut()."</td>";
+			echo "<td class='td-center'><a class='btn btn-primary btn-xs' href='tickets/updateStatut/".$t->getId()."'>Statut</a></td>".
 					"<td class='td-center'><a class='btn btn-primary btn-xs' href='tickets/frm/".$t->getId()."'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a></td>".
 					"<td class='td-center'><a class='btn btn-warning btn-xs' href='tickets/delete/".$t->getId()."'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></a></td>";
 			echo "</tr>";
@@ -86,13 +86,14 @@ class Tickets extends \_DefaultController {
 		$statut=DAO::getAll("Statut");
 		if($ticket->getStatut()==null){
 			$stat=-1;
-		}else{
+		}
+		else{
 			$stat=$ticket->getStatut()->getId();
 		}
 	
 		$listStatut=Gui::select($statut,$stat,"SÃ©lectionner un statut ...");
-		
-		$this->loadView("ticket/vStatut",array("ticket"=>$ticket, "listStatut"=>$listStatut));
+		$statuts=DAO::getAll("Statut", "1=1");
+		$this->loadView("ticket/vStatut",array("ticket"=>$ticket, "listStatut"=>$statuts));
 	}
 	
 
