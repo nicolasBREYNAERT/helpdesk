@@ -33,7 +33,7 @@ class Faqs extends \_DefaultController {
 		echo $ArticleMax;
 	}
 	
-<<<<<<< HEAD
+
 	public function contenu($id){
 		$faqMin=DAO::getOne("Faq","1=1 limit 1");
 		$min=$faqMin->getId();
@@ -59,9 +59,7 @@ class Faqs extends \_DefaultController {
 		$dateCreation=$a->getDateCreation();
 		$this->loadView("faq/vContenu",array("faqs"=>$a,"title"=>$titre,"contenu"=>$contenu,"a"=>$test,"user"=>$user,"version"=>$version,"dateCreation"=>$dateCreation));
 	}
-=======
-	
->>>>>>> origin/master
+
 	
 	public function cfaq(){
 		//sujet les plus populaire
