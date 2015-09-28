@@ -34,21 +34,13 @@ class Faqs extends \_DefaultController {
 	}
 
 	public function contenu($id){
-		$faqMin=DAO::getOne("Faq","1=1 limit 1");
-		$min=$faqMin->getId();
-		$id=intval($id);
-		if($id<$min){
-			$id=$id+1;
-			$a=$this->getInstance((string)$id);
-		}else{
-			$a=$this->getInstance($id);
-			//ajout d'un de popularit�
-			$popularity=$a->getPopularity();
-			$popularity=$popularity + 1;
-			$a->setPopularity($popularity);
-			//mettre � jour a dans la base
-			DAO::update($a);
-		}
+		$a=$this->getInstance($id[0]);
+		//ajout d'un de popularit�
+		$popularity=$a->getPopularity();
+		$popularity=$popularity + 1;
+		$a->setPopularity($popularity);
+		//mettre � jour a dans la base
+		DAO::update($a);
 		$test=$a->getPopularity();
 		//chargement de la vue
 		$contenu=$a->getContenu();
@@ -59,11 +51,10 @@ class Faqs extends \_DefaultController {
 		$this->loadView("faq/vContenu",array("faqs"=>$a,"title"=>$titre,"contenu"=>$contenu,"a"=>$test,"user"=>$user,"version"=>$version,"dateCreation"=>$dateCreation));
 	}
 
-	public function cfaq(){
-		if ($_SESSION["admin"] == "1"){
+	public function index(){
 		//sujet les plus populaire
 		$faqs=DAO::getAll("Faq","1=1 order by popularity limit 10");
-		$this->loadView("faq/vPopulaire",array("faqs"=>$faqs,"title"=>"Sujets les plus populaire"));
+		$this->loadView("faq/vPopulaire",array("faqs"=>$faqs,"title"=>"Sujets les plus populaires"));
 		//sujet les plus r�cents
 		$faqs=DAO::getAll("Faq","1=1 order by dateCreation limit 10");
 		$this->loadView("faq/vFaqs",array("faqs"=>$faqs,"title"=>"Sujets les plus recents"));
@@ -79,7 +70,7 @@ class Faqs extends \_DefaultController {
 		//echo DAO::$db->query("SELECT max(id) FROM Faq")->fetchColumn();
 		//$ArticleMax=DAO::getOne("Faq","id=(SELECT max(id) FROM Faq)");
 		//echo $ArticleMax;
-		}}
+		}
 	/* (non-PHPdoc)
 	 * @see BaseController::isValid()
 	 */

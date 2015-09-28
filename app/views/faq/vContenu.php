@@ -1,7 +1,26 @@
-<?php $a=$faqs->getId();
-$a=$a-1;
-$b=$faqs->getId();
-$b=$b+1;?>
+<?php
+use micro\orm\DAO;
+//le premier
+$faqMin=DAO::getOne("Faq","1=1 limit 1");
+$min=$faqMin->getId();
+//le dernier
+$faqMax=DAO::getOne("Faq","1=1 order by id DESC limit 1");
+$max=$faqMax->getId();
+$c=$faqs->getId();
+if($c<=$min){
+	$a=$c;
+}else{
+	$faqPre=DAO::getAll("Faq","id<$c limit 1");
+	$a=$faqPre[0]->getId();
+	
+}
+if($c>=$max){
+	$b=$c;
+}else{
+	$faqSui=DAO::getAll("Faq","id>$c limit 1");
+	$b=$faqSui[0]->getId();
+}
+?>
 <div class="container">
 	<div class="table">
 		<table>
