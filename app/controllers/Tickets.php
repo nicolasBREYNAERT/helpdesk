@@ -17,20 +17,44 @@ class Tickets extends \_DefaultController {
 	}
 
 	public function index() {
-		$ticket=DAO::getAll("Ticket");
-		echo "<table class='table table-striped'>";
-		echo "<tbody>";
-		foreach ($ticket as $t){
-			echo "<tr>";
-			echo "<td>".$t->getTitre()." - ".$t->getUser()." - ".$t->getStatut()."</td>";
-			echo "<td class='td-center'><a class='btn btn-primary btn-xs' href='tickets/updateStatut/".$t->getId()."'>Statut</a></td>".
-					"<td class='td-center'><a class='btn btn-primary btn-xs' href='tickets/frm/".$t->getId()."'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a></td>".
-					"<td class='td-center'><a class='btn btn-warning btn-xs' href='tickets/delete/".$t->getId()."'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></a></td>";
-			echo "</tr>";
+		if ($_SESSION["admin"] == "1"){
+			$nouveaux=DAO::getAll("Ticket","idStatut=1");
+			$this->loadView("ticket/vNouveaux", array("nouveaux"=>$nouveaux));
+			$ticket=DAO::getAll("Ticket", "1=1 order by idStatut");
+			echo "<table class='table table-striped'>";
+			echo "<tbody>";
+			foreach ($ticket as $t){
+				echo "<tr>";
+				echo "<td><b>".$t->getTitre()."</b> - ".$t->getUser()." - ".$t->getStatut()."</td>";
+				echo "<td class='td-center'><a class='btn btn-primary btn-xs' href='tickets/updateStatut/".$t->getId()."'>Statut</a></td>".
+						"<td class='td-center'><a class='btn btn-primary btn-xs' href='tickets/frm/".$t->getId()."'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a></td>".
+						"<td class='td-center'><a class='btn btn-warning btn-xs' href='tickets/delete/".$t->getId()."'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></a></td>";
+				echo "</tr>";
+			}
+			echo "</tbody>";
+			echo "</table>";
+			echo "<a class='btn btn-primary' href='tickets/frm'>Ajouter...</a>";
+			echo "<a class='btn btn-primary' href='tickets/ticketAdmin'>Mes tickets</a>";
 		}
-		echo "</tbody>";
-		echo "</table>";
-		echo "<a class='btn btn-primary' href='tickets/frm'>Ajouter...</a>"; 
+		else{
+			$ticket=DAO::getAll("Ticket", "1=1 order by idStatut");
+			echo "<table class='table table-striped'>";
+			echo "<tbody>";
+			foreach ($ticket as $t){
+				echo "<tr>";
+				echo "<td><b>".$t->getTitre()."</b> - ".$t->getUser()." - ".$t->getStatut()."</td>";
+				echo 	"<td class='td-center'><a class='btn btn-primary btn-xs' href='tickets/frm/".$t->getId()."'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a></td>".
+						"<td class='td-center'><a class='btn btn-warning btn-xs' href='tickets/delete/".$t->getId()."'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></a></td>";
+				echo "</tr>";
+			}
+			echo "</tbody>";
+			echo "</table>";
+			echo "<a class='btn btn-primary' href='tickets/frm'>Ajouter...</a>";
+		}
+	}
+	
+	public function ticketAdmin($id=NULL){
+		//SI UPDATESTATUT RETOURNE QQCS §§§ 
 	}
 	
 	
@@ -142,6 +166,10 @@ class Tickets extends \_DefaultController {
 	 */
 	public function isValid() {
 		return Auth::isAuth();
+	}
+	
+	public function isAdmin(){
+		
 	}
 
 	/* (non-PHPdoc)
