@@ -32,7 +32,6 @@ class Faqs extends \_DefaultController {
 		$ArticleMax=DAO::getOne("Faq","id=(SELECT max(id) FROM Faq)");
 		echo $ArticleMax;
 	}
-	
 
 	public function contenu($id){
 		$faqMin=DAO::getOne("Faq","1=1 limit 1");
@@ -61,6 +60,7 @@ class Faqs extends \_DefaultController {
 	}
 
 	public function cfaq(){
+		if ($_SESSION["admin"] == "1"){
 		//sujet les plus populaire
 		$faqs=DAO::getAll("Faq","1=1 order by popularity limit 10");
 		$this->loadView("faq/vPopulaire",array("faqs"=>$faqs,"title"=>"Sujets les plus populaire"));
@@ -79,5 +79,26 @@ class Faqs extends \_DefaultController {
 		//echo DAO::$db->query("SELECT max(id) FROM Faq")->fetchColumn();
 		//$ArticleMax=DAO::getOne("Faq","id=(SELECT max(id) FROM Faq)");
 		//echo $ArticleMax;
+		}}
+	/* (non-PHPdoc)
+	 * @see BaseController::isValid()
+	 */
+	public function isAdmin(){
+		$a=$_SESSION["admin"];
+		return $a;
+	}
+	
+	public function isValid() {
+		return Auth::isAuth();
+	}
+	
+	/* (non-PHPdoc)
+	 * @see BaseController::onInvalidControl()
+	 */
+	public function onInvalidControl() {
+		$this->initialize();
+		$this->messageDanger("<strong>Autorisation refusÃ©e</strong>,<br>Merci de vous connecter pour accÃ©der Ã  ce module.&nbsp;".Auth::getInfoUser("danger"));
+		$this->finalize();
+		exit;
 	}
 }
