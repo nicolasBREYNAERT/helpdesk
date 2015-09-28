@@ -59,7 +59,6 @@ class Faqs extends \_DefaultController {
 		$dateCreation=$a->getDateCreation();
 		$this->loadView("faq/vContenu",array("faqs"=>$a,"title"=>$titre,"contenu"=>$contenu,"a"=>$test,"user"=>$user,"version"=>$version,"dateCreation"=>$dateCreation));
 	}
-
 	
 	public function cfaq(){
 		//sujet les plus populaire
