@@ -1,5 +1,6 @@
 <?php
 use micro\orm\DAO;
+use micro\views\Gui;
 /**
  * Gestion des articles de la Faq
  * @author jcheron
@@ -50,8 +51,25 @@ class Faqs extends \_DefaultController {
 		$dateCreation=$a->getDateCreation();
 		$this->loadView("faq/vContenu",array("faqs"=>$a,"title"=>$titre,"contenu"=>$contenu,"a"=>$test,"user"=>$user,"version"=>$version,"dateCreation"=>$dateCreation));
 	}
-
+	
+	public function editionArticle(){
+		$categories=DAO::getAll("Categorie");
+		$listCat=Gui::select($categories,"selectionner une categorie ...");
+		$this->loadView("faq/vAjout",array("listCat"=>$listCat));
+	}
+	
 	public function index(){
+		//en tant qu'admin je peux ecrire un article
+		if($_SESSION["admin"]=="1"){
+			$this->loadView("faq/vAdmin");
+		}
+		//recherche
+		if(isset($_POST["recherche"]) && $_POST["recherche"]!="" && $_POST["recherche"]!="votre recherche..."){
+			$recherch=$_POST["recherche"];
+			$faqs=DAO::getAll("Faq","titre LIKE '%".$recherch."%'");
+			$this->loadView("faq/vResultat",array("faqs"=>$faqs,"title"=>"Resultat de votre recherche : "));
+		}else{
+		$this->loadView("faq/vRecherche");
 		//sujet les plus populaire
 		$faqs=DAO::getAll("Faq","1=1 order by popularity limit 10");
 		$this->loadView("faq/vPopulaire",array("faqs"=>$faqs,"title"=>"Sujets les plus populaires"));
@@ -61,7 +79,7 @@ class Faqs extends \_DefaultController {
 		//sujet par cat�gorie
 		$faqs=DAO::getAll("Faq","1=1 order by idCategorie limit 10");
 		$this->loadView("faq/vCate",array("faqs"=>$faqs));
-
+		}
 		//$faqs=DAO::getAll("Faq","1=1 order by dateCreation limit 1,10");
 		//foreach ($faqs as $faq){
 		//	echo $faq."<br>";
@@ -74,10 +92,6 @@ class Faqs extends \_DefaultController {
 	/* (non-PHPdoc)
 	 * @see BaseController::isValid()
 	 */
-	public function isAdmin(){
-		$a=$_SESSION["admin"];
-		return $a;
-	}
 	
 	public function isValid() {
 		return Auth::isAuth();
