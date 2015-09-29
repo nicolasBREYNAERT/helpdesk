@@ -3,6 +3,7 @@ use micro\orm\DAO;
 use micro\js\Jquery;
 use micro\views\Gui;
 use micro\utils\RequestUtils;
+use micro\db\Database;
 /**
  * Gestion des tickets
  * @author jcheron
@@ -33,7 +34,7 @@ class Tickets extends \_DefaultController {
 			}
 			echo "</tbody>";
 			echo "</table>";
-			echo "<a class='btn btn-primary' href='tickets/frm'>Ajouter...</a>";
+			echo "<a class='btn btn-primary' href='tickets/frm'>Ajouter...</a> &nbsp; ";
 			echo "<a class='btn btn-primary' href='tickets/ticketAdmin'>Mes tickets</a>";
 		}
 		else{
@@ -54,7 +55,17 @@ class Tickets extends \_DefaultController {
 	}
 	
 	public function ticketAdmin($id=NULL){
-		//SI UPDATESTATUT RETOURNE QQCS §§§ 
+		$db=DAO::$db;
+		$messages=$db->query("select message.id from message inner join ticket on message.idTicket=ticket.id where message.idUser=".Auth::getUser()->getId());
+		$statement=$db->query("select distinct ticket.id from ticket inner join message on message.idTicket=ticket.id where message.idUser=".Auth::getUser()->getId());
+		foreach ($statement as $s){
+			$ticket=DAO::getOne("Ticket",$s[0]);
+			echo $ticket."</br>";
+		}
+		
+		$this->loadView("ticket/vMessages",array("ticket"=>$ticket,"messages"=>$messages));
+		echo Jquery::execute("CKEDITOR.replace('message');");
+		//EN COUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUURS !! 
 	}
 	
 	
