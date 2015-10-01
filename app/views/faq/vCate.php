@@ -1,13 +1,18 @@
+<?php 
+use micro\orm\DAO;
+$faqs=DAO::getAll("Faq","1=1 order by idCategorie limit 10");?>
 <div class="container">
 	<h2>Classe par categorie</h2>	
 	<table class="table table-striped">
 	<?php foreach($faqs as $c){?>
-		<?="<thead><tr><th><h3><i>".$c->getCategorie()."</i></h3></th></tr></thead>";
+		<?php 
+		echo "<thead><tr><th><h3><i>".$c->getCategorie()."</i></h3></th></tr></thead>";
 		$tpx=$c->getCategorie();
 		foreach($faqs as $f){
-			if($f->getCategorie()==$tpx){
+			$x=$f->getSuspendre();
+			if($f->getCategorie()==$tpx && $x==0){
 				$test=$f->getTitre();
 				echo "<tr><td><a class='' href='faqs/contenu/".$f->getId()."'>".$test."<br></a></td></tr>";
-			}}}?>
+	}}}?>
 	</table>
 </div>

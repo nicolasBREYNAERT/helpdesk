@@ -14,6 +14,7 @@ class Faq extends Base{
 	private $contenu;
 	private $dateCreation;
 	private $popularity;
+	private $suspendre;
 	/**
 	 * @ManyToOne
 	 * @JoinColumn(name="idCategorie",className="Categorie",nullable=true)
@@ -27,6 +28,7 @@ class Faq extends Base{
 	private $user;
 	private $version;
 
+	
 	public function getId() {
 		return $this->id;
 	}
@@ -102,6 +104,13 @@ class Faq extends Base{
 		$this->popularity=$popularity;
 		return $this;
 	}
-
+	public function getSuspendre() {
+		return $this->suspendre;
+	}
+	
+	public function setSuspendre($suspendre) {
+		$this->suspendre=$suspendre;
+		return $this;
+	}
 
 }

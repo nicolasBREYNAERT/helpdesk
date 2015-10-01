@@ -1,5 +1,12 @@
-
 <div class="container">
+<div class="">
+	<?php
+		echo $infoUser;
+	?>
+	<a class="btn btn-primary" href="DefaultC/information/">Information/modification du compte</a>
+</div>
+
+<br>
 	<div class="well well-lg">
 		<div id="main">
 			<fieldset>
@@ -13,12 +20,12 @@
 				<a class="btn btn-danger" href="messages">Messages</a>
 				<a class="btn btn-danger" href="tickets/messages/1">Messages d'un ticket</a>
 			</fieldset>
-			<fieldset>
+			<!--  <fieldset>
 				<legend>Connexion</legend>
 					<a class="btn btn-default" href="defaultc/asAdmin">Connexion en tant qu'admin</a>
 					<a class="btn btn-default" href="defaultc/asUser">Connexion en tant que user</a>
 					<a class="btn btn-warning" href="defaultc/disconnect">Déconnexion</a>
-			</fieldset>
+			</fieldset> -->
 			<fieldset>
 				<legend>Exemples</legend>
 					<a class="btn btn-link" href="defaultc/ckEditorSample">Exemple ckEditor</a>
@@ -29,3 +36,4 @@
 	</div>
 
 </div>
+

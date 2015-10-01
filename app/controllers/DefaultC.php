@@ -11,13 +11,50 @@ use micro\views\Gui;
  */
 class DefaultC extends BaseController {
 
+	public function connexion(){
+		$user=$_POST["login"];
+		$password=$_POST["password"];
+		$use=DAO::getAll("User");
+		$x=0;
+		foreach ($use as $u){
+			if($u->getLogin()==$user && $u->getPassword()==$password){
+				$x=1;
+				$_SESSION["user"]=$u;
+				$_SESSION["password"]=$password;
+				$_SESSION["login"]=$user;
+				$y=$u->getAdmin();
+				if($y==true){
+					$_SESSION["admin"]=1;
+				}else{
+					$_SESSION["admin"]=0;
+				}
+				$this->index();
+			}
+		}
+		if($x==0){
+			$this->index();
+			$this->loadView("main/vEchecConnexion");
+		}
+	}
+	
+	public function information(){
+		$user=$_SESSION["login"];
+		$password=$_SESSION["password"];
+		$use=DAO::getAll("User","login=$user && password=$password");
+		$this->loadView("main/modif");
+	}
+	
 	/**
 	 * Affiche la page par défaut du site
 	 * @see BaseController::index()
 	 */
 	public function index() {
 		$this->loadView("main/vHeader",array("infoUser"=>Auth::getInfoUser()));
-		$this->loadView("main/vDefault");
+		if(isset($_SESSION["user"])){
+			$this->loadView("main/vDefault",array("infoUser"=>Auth::getInfoUser()));
+		}else{
+			$this->loadView("main/vDefault1");
+		}
 		$this->loadView("main/vFooter");
 		Jquery::getOn("click", ".btAjax", "sample/ajaxSample","#response");
 		echo Jquery::compile();

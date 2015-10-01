@@ -25,7 +25,7 @@
 			</div>
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
-			<div class="collapse navbar-collapse" id="collapse-mainNav">
+			<!-- <div class="collapse navbar-collapse" id="collapse-mainNav">
 				<ul class="nav navbar-nav navbar-nav">
 					<li id='mainNav-navzone-1-li-1'><a id='mainNav-navzone-1-link-1'
 						href="#">Créer un ticket</a></li>
@@ -34,7 +34,7 @@
 					<li id='mainNav-navzone-1-li-3'><a id='mainNav-navzone-1-link-3'
 						href="#">Foire aux questions</a></li>
 				</ul>
-			</div>
+			</div>  -->
 			<!-- /.navbar-collapse -->
 		</div>
 		<!-- /.container-fluid -->
@@ -46,7 +46,7 @@
 				<p>Assistance, support et gestion des incidents.</p>
 				<div class="pull-right">
 					<?php
-					echo $infoUser;
+					//echo $infoUser;
 					?>
 				</div>
 				<div class="clearfix"></div>

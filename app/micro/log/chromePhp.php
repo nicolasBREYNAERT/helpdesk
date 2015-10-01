@@ -391,7 +391,7 @@ class ChromePhp
 
     protected function _writeHeader($data)
     {
-        header(self::HEADER_NAME . ': ' . $this->_encode($data));
+       // header(self::HEADER_NAME . ': ' . $this->_encode($data));
     }
 
     /**
