@@ -36,12 +36,24 @@ class DefaultC extends BaseController {
 			$this->loadView("main/vEchecConnexion");
 		}
 	}
+	public function modification($champ){
+		$this->loadView("main/vHeader");
+		if ($champ[0]=="login"){
+			$this->loadView("main/vLogin",array("login"=>$champ));
+		}elseif ($champ[0]=="password"){
+			$this->loadView("main/vPassword",array("password"=>$champ));
+		}elseif($champ[0]=="mail"){
+			$this->loadView("main/vMail",array("mail"=>$champ));
+		}
+		
+	}
 	
 	public function information(){
 		$user=$_SESSION["login"];
 		$password=$_SESSION["password"];
 		$use=DAO::getAll("User","login=$user && password=$password");
-		$this->loadView("main/modif");
+		$this->loadView("main/vHeader");
+		$this->loadView("main/modif",array("user"=>$use[0],"login"=>$user,"password"=>$password));
 	}
 	
 	/**
