@@ -1,3 +1,4 @@
+<?php use micro\orm\DAO;?>
 <form method="post" action="tickets/update">
 <fieldset>
 <legend>Messages</legend>
@@ -20,7 +21,7 @@
 <div class="form-group">
 	<label>Conversation</label>
 	<?php foreach ($messages as $mess){
-		echo "<div class='form-control' disabled>".$mess->getMessage()."</div>";
+		echo "<div class='' disabled>".$mess->getContenu()."</div><HR>";
 	}?>
 	<label>Nouveau message</label>
 	<textarea name="message" id="message" placeholder="Entrez le message" class="form-control"><?php echo $ticket->getDescription()?></textarea>

@@ -56,13 +56,14 @@ class Tickets extends \_DefaultController {
 	
 	public function ticketAdmin($id=NULL){
 		$db=DAO::$db;
-		$messages=$db->query("select message.id from message inner join ticket on message.idTicket=ticket.id where message.idUser=".Auth::getUser()->getId());
+		//$messages=$db->query("select message.id from message inner join ticket on message.idTicket=ticket.id where message.idUser=".Auth::getUser()->getId());
 		$statement=$db->query("select distinct ticket.id from ticket inner join message on message.idTicket=ticket.id where message.idUser=".Auth::getUser()->getId());
 		foreach ($statement as $s){
 			$ticket=DAO::getOne("Ticket",$s[0]);
 			echo $ticket."</br>";
+			$id=$ticket->getId();
 		}
-		
+		$messages=DAO::getAll("Message","idTicket=$id");
 		$this->loadView("ticket/vMessages",array("ticket"=>$ticket,"messages"=>$messages));
 		echo Jquery::execute("CKEDITOR.replace('message');");
 		//EN COUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUURS !! 
