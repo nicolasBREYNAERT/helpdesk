@@ -3,15 +3,15 @@ use micro\orm\DAO;
 use micro\utils\StrUtils;
 use micro\controllers\Autoloader;
 error_reporting(E_ALL);
-$config=include_once 'config.php';
 ?>
 
 <?php
 define('DS', DIRECTORY_SEPARATOR);
 define('ROOT', dirname(__FILE__).DS);
+$config=include_once ROOT.DS.'config.php';
 
-require_once 'micro/log/Logger.php';
-require_once'micro/controllers/Autoloader.php';
+require_once ROOT.'micro/log/Logger.php';
+require_once ROOT.'micro/controllers/Autoloader.php';
 
 Autoloader::register();
 
@@ -24,6 +24,9 @@ class Startup{
 		global $config;
 		session_start();
 		Logger::init();
+		if($config["test"]){
+			$config["siteUrl"]="http://127.0.0.1:8090/";
+		}
 		extract($config["database"]);
 		$db=$config["database"];
 		DAO::connect($db["dbName"],@$db["serverName"],@$db["port"],@$db["user"],@$db["password"]);
@@ -62,11 +65,11 @@ class Startup{
 							$obj->$u[1](array_slice($u, 2));
 						break;
 					}
-				}catch (Exception $e){
+				}catch (\Exception $e){
 					print "Error!: " . $e->getMessage() . "<br/>";
 					die();
 				}
-			}catch (Exception $e){
+			}catch (\Exception $e){
 				print "Error!: " . $e->getMessage() . "<br/>";
 				die();
 			}

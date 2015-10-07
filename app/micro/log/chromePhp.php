@@ -133,7 +133,7 @@ class ChromePhp
     {
         $this->_php_version = phpversion();
         $this->_timestamp = $this->_php_version >= 5.1 ? $_SERVER['REQUEST_TIME'] : time();
-        $this->_json['request_uri'] = $_SERVER['REQUEST_URI'];
+        $this->_json['request_uri'] = @$_SERVER['REQUEST_URI'];
     }
 
     /**
@@ -391,7 +391,7 @@ class ChromePhp
 
     protected function _writeHeader($data)
     {
-       // header(self::HEADER_NAME . ': ' . $this->_encode($data));
+        header(self::HEADER_NAME . ': ' . $this->_encode($data));
     }
 
     /**
