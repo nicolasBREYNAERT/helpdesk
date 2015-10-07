@@ -20,7 +20,7 @@ SET time_zone = "+00:00";
 -- Base de données :  `helpdesk`
 --
 CREATE DATABASE `helpdesk`;
-USE DATABASE `helpdesk`;
+USE `helpdesk`;
 
 -- --------------------------------------------------------
 
