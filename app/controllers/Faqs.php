@@ -85,7 +85,7 @@ class Faqs extends \_DefaultController {
 			echo "<table class='table table-striped'>";
 			foreach ($mesAtricles as $m){
 				$monArticle=DAO::getOne("Faq",$m[0]);
-				echo "<tr><td><a class='' href='faqs/contenu/".$monArticle->getId()."'>".$monArticle->getTitre()."<br></a></td>";
+				echo "<tr class='article'><td><a class='' href='faqs/contenu/".$monArticle->getId()."'>".$monArticle->getTitre()."<br></a></td>";
 				echo "<td class='td-center'><a class='btn btn-primary btn-xs' href='faqs/modifierArticle/".$monArticle->getId()."'>Modifier</a></td>";
 				$x=$monArticle->getSuspendre();
 				if($x==0){
