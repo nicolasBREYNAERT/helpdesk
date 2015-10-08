@@ -1,6 +1,6 @@
 <?php
 class SeleniumTest extends AjaxUnitTest{
-	public function testIndex(){
+	/*public function testIndex(){
 		$this->get("DefaultC/index");
 		self::$webDriver->manage()->timeouts()->implicitlyWait(5);
 		$this->assertPageContainsText("HelpDesk");
@@ -38,7 +38,17 @@ class SeleniumTest extends AjaxUnitTest{
 				break;
 			}
 		}
+	}*/
+	public function testTicketUser(){
+		//se logger
+		$this->get("DefaultC/asUser");
+		$this->waitFor(5);
+		//accès a la page
+		$this->get("tickets/index");
+		$this->waitFor(5);
 		
+		$tr=$this->getElementsBySelector(".ticket");
+		$this->assertEquals(2, count($tr));
 	}
 	
 	
