@@ -18,5 +18,29 @@ class SeleniumTest extends AjaxUnitTest{
 			}
 		}
 		$this->assertTrue($doIt);
+		//$this->getElementById("")->sendKeys($value);
+		$champs=$this->getElementsBySelector(".form-control");
+		foreach ($champs as $chp){
+			if($chp->getAttribute("name")=="login"){
+				$chp->sendKeys("admin");
+			}
+			if($chp->getAttribute("name")=="password"){
+				$chp->sendKeys("admin");
+			}
+		}
+		$btnConnexion=$this->getElementsBySelector(".btn-default");
+		foreach ($btnConnexion as $bt){
+			if($bt->getAttribute("value")=="connexion"){
+				$bt->click();
+				$this->waitFor();
+				$this->assertPageContainsText("admin");
+				$this->assertPageContainsText("Information/modification du compte");
+				break;
+			}
+		}
+		
 	}
+	
+	
+	
 }
