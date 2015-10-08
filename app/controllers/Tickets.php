@@ -42,7 +42,7 @@ class Tickets extends \_DefaultController {
 			echo "<table class='table table-striped'>";
 			echo "<tbody>";
 			foreach ($ticket as $t){
-				echo "<tr>";
+				echo "<tr class='ticket'>";
 				echo "<td><b>".$t->getTitre()."</b> - ".$t->getUser()." - ".$t->getStatut()."</td>";
 				echo 	"<td class='td-center'><a class='btn btn-primary btn-xs' href='tickets/frm/".$t->getId()."'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a></td>".
 						"<td class='td-center'><a class='btn btn-warning btn-xs' href='tickets/delete/".$t->getId()."'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></a></td>";
