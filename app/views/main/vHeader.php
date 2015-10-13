@@ -56,7 +56,7 @@
 	<div class="second-header"></div>
 	<div class="container">
 		<ol class="breadcrumb">
-			<li><a href="<?php echo $config["siteUrl"]?>"><span class="glyphicon glyphicon-home"
+			<li><a class="accueil" href="<?php echo $config["siteUrl"]?>"><span class="glyphicon glyphicon-home"
 					aria-hidden="true"></span>&nbsp;Accueil</a></li>
 		</ol>
 	</div>

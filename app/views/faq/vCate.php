@@ -12,7 +12,7 @@ $faqs=DAO::getAll("Faq","1=1 order by idCategorie limit 10");?>
 			$x=$f->getSuspendre();
 			if($f->getCategorie()==$tpx && $x==0){
 				$test=$f->getTitre();
-				echo "<tr><td><a class='' href='faqs/contenu/".$f->getId()."'>".$test."<br></a></td></tr>";
+				echo "<tr><td class='carticle'><a class='' href='faqs/contenu/".$f->getId()."'>".$test."<br></a></td></tr>";
 	}}}?>
 	</table>
 </div>
