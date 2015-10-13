@@ -38,7 +38,11 @@ class SeleniumTest extends AjaxUnitTest{
 				break;
 			}
 		}
+
 	}
+
+	}
+
 	public function testTicketUser(){
 		//se logger
 		$this->get("DefaultC/asUser");
@@ -49,6 +53,7 @@ class SeleniumTest extends AjaxUnitTest{
 		
 		$tr=$this->getElementsBySelector(".ticket");
 		$this->assertEquals(2, count($tr));
+
 	}
 	*/
 	public function testCreationArticle(){
