@@ -48,7 +48,7 @@ class Auth {
 	public static function getInfoUser($style="primary"){
 		$user=self::getUser();
 		if(isset($user)){
-			$infoUser="<a class='btn btn-primary' href='defaultC/disconnect'>Déconnexion <span class='label label-success'>".$user."</span></a>";
+			$infoUser="<a class='btn btn-primary deconnexion' href='defaultC/disconnect'>Déconnexion <span class='label label-success'>".$user."</span></a>";
 		}else{
 			$infoUser='<div class="btn-group">
 							<button type="button" class="btn btn-'.$style.' dropdown-toggle" data-toggle="dropdown" aria-expanded="false">

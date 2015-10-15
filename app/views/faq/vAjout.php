@@ -8,7 +8,7 @@ $heure = date("H:i");
 		<input name="id" type="hidden">
 		<div class="form-group">
 			<label>titre</label>
-			<input name="titre" type="text" class="form-control">
+			<input class="titre" name="titre" type="text" class="form-control">
 		</div>
 		<div class="form-group">
 			<label>contenu</label>
@@ -38,7 +38,7 @@ $heure = date("H:i");
 			<input name="popularity" type="text" class="form-control" value="0" disabled>
 		</div>
 		<div class="form-group">
-			<input type="submit" value="Valider" class="btn btn-default">
+			<input type="submit" value="Valider" class="btn btn-default valider">
 			<a class="btn btn-default" href="faqs">Annuler</a>
 		</div>
 	</fieldset>

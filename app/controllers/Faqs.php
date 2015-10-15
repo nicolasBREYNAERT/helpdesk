@@ -37,12 +37,12 @@ class Faqs extends \_DefaultController {
 	public function contenu($id){
 		$a=$this->getInstance($id[0]);
 		//ajout d'un de popularit�
-		$popularity=$a->getPopularity();
-		$popularity=$popularity + 1;
-		$a->setPopularity($popularity);
+		//$popularity=$a->getPopularity();
+		//$popularity=$popularity + 1;
+		//$a->setPopularity($popularity);
 		//mettre � jour a dans la base
-		DAO::update($a);
-		$test=$a->getPopularity();
+		//DAO::update($a);
+		//$test=$a->getPopularity();
 		//chargement de la vue
 		$contenu=$a->getContenu();
 		$titre=$a->getTitre();
@@ -50,7 +50,7 @@ class Faqs extends \_DefaultController {
 		$version=$a->getVersion();
 		$dateCreation=$a->getDateCreation();
 		$suspendu=$a->getSuspendre();
-		$this->loadView("faq/vContenu",array("faqs"=>$a,"title"=>$titre,"contenu"=>$contenu,"a"=>$test,"user"=>$user,"version"=>$version,"dateCreation"=>$dateCreation,"suspendu"=>$suspendu));
+		$this->loadView("faq/vContenu",array("faqs"=>$a,"title"=>$titre,"contenu"=>$contenu,/*"a"=>$test,*/"user"=>$user,"version"=>$version,"dateCreation"=>$dateCreation,"suspendu"=>$suspendu));
 	}
 	
 	public function editionArticle(){
@@ -85,15 +85,15 @@ class Faqs extends \_DefaultController {
 			echo "<table class='table table-striped'>";
 			foreach ($mesAtricles as $m){
 				$monArticle=DAO::getOne("Faq",$m[0]);
-				echo "<tr><td><a class='' href='faqs/contenu/".$monArticle->getId()."'>".$monArticle->getTitre()."<br></a></td>";
+				echo "<tr class='article'><td><a class='titreArticle' name='".$monArticle->getTitre()."' href='faqs/contenu/".$monArticle->getId()."'>".$monArticle->getTitre()."<br></a></td>";
 				echo "<td class='td-center'><a class='btn btn-primary btn-xs' href='faqs/modifierArticle/".$monArticle->getId()."'>Modifier</a></td>";
 				$x=$monArticle->getSuspendre();
 				if($x==0){
-					echo "<td class='td-center'><a class='btn btn-primary btn-xs' href='faqs/suspendre/".$monArticle->getId()."'>Suspendre</a></td>";
+					echo "<td class='td-center'><a class='btn btn-primary btn-xs suspendre' href='faqs/suspendre/".$monArticle->getId()."'>Suspendre</a></td>";
 				}else{
-					echo "<td class='td-center'><a class='btn btn-primary btn-xs' href='faqs/Rsuspendre/".$monArticle->getId()."'>Activer</a></td>";
+					echo "<td class='td-center'><a class='btn btn-primary btn-xs activer' href='faqs/Rsuspendre/".$monArticle->getId()."'>Activer</a></td>";
 				}
-				echo "<td class='td-center'><a class='btn btn-warning btn-xs' href='faqs/delete/".$monArticle->getId()."'>Supprimer</a></td>";
+				echo "<td class='td-center'><a name='".$monArticle->getTitre()."' class='btn btn-warning btn-xs suppression' href='faqs/delete/".$monArticle->getId()."'>Supprimer</a></td>";
 				echo "</tr>";
 			}
 			echo"</table>";

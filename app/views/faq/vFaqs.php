@@ -4,7 +4,7 @@
 		<?php 
 		foreach($faqs as $f){
 			if($f->getSuspendre()==0){
-				echo "<tr><td><a class='' href='faqs/contenu/".$f->getId()."'>".$f->getTitre()."<br></a></td></tr>";
+				echo "<tr><td class='farticle'><a class='' href='faqs/contenu/".$f->getId()."'>".$f->getTitre()."<br></a></td></tr>";
 			}}?>
 	</table>
 </div>
