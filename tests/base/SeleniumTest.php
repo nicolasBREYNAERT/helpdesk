@@ -171,6 +171,17 @@ class SeleniumTest extends AjaxUnitTest{
 		$this->assertEquals($affichage,$nouveau);
 		$this->waitFor(5);
 	}
+	
+	public function testDeconnexionOne(){
+		$btnAcc=$this->getElementBySelector(".accueil");
+		$btnAcc->click();
+		$this->waitFor(5);
+		$btnDeco=$this->getElementBySelector(".deconnexion");
+		$btnDeco->click();
+		$this->waitFor(5);
+		$this->assertPageContainsText("Connection");
+	}
+	
 	public function testCreationArticle(){
 		//se logger
 		$this->get("DefaultC/asAdmin");
