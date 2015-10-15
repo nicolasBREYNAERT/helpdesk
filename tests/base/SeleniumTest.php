@@ -40,6 +40,11 @@ class SeleniumTest extends AjaxUnitTest{
 		}
 	}*/
 	/*public function testTicketUser(){
+	}
+
+	}
+
+	public function testTicketUser(){
 		//se logger
 		$this->get("DefaultC/asUser");
 		$this->waitFor(5);
@@ -165,9 +170,102 @@ class SeleniumTest extends AjaxUnitTest{
 		//TEST
 		$this->assertEquals($affichage,$nouveau);
 		$this->waitFor(5);
-		
 	}
-	
-	
+	public function testCreationArticle(){
+		//se logger
+		$this->get("DefaultC/asAdmin");
+		$this->waitFor(5);
+		//acc�s � la page
+		$this->get("Faqs/index");
+		$this->waitFor(5);
+		//on compte
+		$articles=$this->getElementsBySelector(".article");
+		$nbArticles=count($articles);
+		//clique sur le bouton ecrire un article
+		$btn=$this->getElementBySelector(".ecrire");
+		$btn->click();
+		//creation dun article vierge
+		$titre=$this->getElementBySelector(".titre");
+		$titre->sendKeys("test");
+		$this->waitFor(5);
+		$btn2=$this->getElementBySelector(".valider");
+		$btn2->click();
+		$this->waitFor(5);
+		//on compte
+		$articlesNew=$this->getElementsBySelector(".article");
+		$nbArticlesNew=count($articlesNew);
+		$this->assertEquals($nbArticles+1, $nbArticlesNew);
+	}
+	public function testDeconnexion(){
+		$btnAcc=$this->getElementBySelector(".accueil");
+		$btnAcc->click();
+		$this->waitFor(5);
+		$btnDeco=$this->getElementBySelector(".deconnexion");
+		$btnDeco->click();
+		$this->waitFor(5);
+		$this->assertPageContainsText("Connection");
+	}
+	public function testRecherche(){
+		//se logger
+		$this->get("DefaultC/asAdmin");
+		$this->waitFor(5);
+		//acc�s � la page
+		$this->get("Faqs/index");
+		$this->waitFor(5);
+		//acc�der au champ de recherche
+		$texteRecherche=$this->getElementBySelector(".recherche");
+		//y ins�rer une valeur de test
+		$texteRecherche->sendKeys("test");
+		//chercher le bouton rechercher
+		$btnRechercher=$this->getElementBySelector(".btnRechercher");
+		$btnRechercher->click();
+		$this->waitFor(5);
+		//on v�rifie la pr�sence de l'article
+		$this->assertPageContainsText("test");
+		$this->waitFor(5);
+	}
+	public function testAccederArticle(){
+		//selection de l'�l�ment test
+		$access=$this->getElementsBySelector(".titreArticle");
+		foreach($access as $acc){
+			if($acc->getAttribute("name")=="test"){
+				$clickAcc=$acc;
+			}
+		}
+		$clickAcc->click();
+		$this->waitFor(5);
+		$this->assertNotNull($this->getElementBySelector(".precedent"));
+		$this->assertNotNull($this->getElementBySelector(".suivant"));
+		//on retourne a la page des article
+		$this->get("Faqs/index");
+		$this->waitFor(5);
+	}
+	public function testSuppressionArticle(){
+		$articles=$this->getElementsBySelector(".article");
+		$nbArticles=count($articles);
+		$btnSuppression=$this->getElementsBySelector(".suppression");
+		foreach($btnSuppression as $sup){
+			if($sup->getAttribute("name")=="test"){
+				$sup->click();
+			}
+		}
+		$articlesNew=$this->getElementsBySelector(".article");
+		$nbArticlesNew=count($articlesNew);
+		$this->assertEquals($nbArticles-1, $nbArticlesNew);
+	}
+	public function testFaqAdmin(){
+		//on verifie qu'on affiche tous les article de la bdd dans la premiere liste
+		$articles=$this->getElementsBySelector(".article");
+		$this->assertEquals(4, count($articles));
+		//on recup�re les btn suspendre
+		$suspendre=$this->getElementBySelector(".suspendre");
+		$suspendre->click();
+		$this->waitFor(5);
+		$populaireArticles=$this->getElementsBySelector(".particle");
+		$this->assertEquals(3, count($populaireArticles));
+		$activer=$this->getElementBySelector(".activer");
+		$activer->click();
+		$this->waitFor(5);
+	}
 	
 }
