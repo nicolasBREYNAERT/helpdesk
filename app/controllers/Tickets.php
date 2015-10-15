@@ -25,16 +25,27 @@ class Tickets extends \_DefaultController {
 			echo "<table class='table table-striped'>";
 			echo "<tbody>";
 			foreach ($ticket as $t){
+				if($t->getStatut()=="Nouveau"){
+					$icon="flag";
+				}elseif($t->getStatut()=="Attribué"){
+					$icon="user";
+				}elseif($t->getStatut()=="En attente"){
+					$icon="hourglass";
+				}elseif($t->getStatut()=="Résolu"){
+					$icon="check";
+				}elseif($t->getStatut()=="Clos"){
+					$icon="off";
+				}
 				echo "<tr>";
-				echo "<td><b>".$t->getTitre()."</b> - ".$t->getUser()." - ".$t->getStatut()."</td>";
-				echo "<td class='td-center'><a class='btn btn-primary btn-xs' href='tickets/updateStatut/".$t->getId()."'>Statut</a></td>".
-						"<td class='td-center'><a class='btn btn-primary btn-xs' href='tickets/frm/".$t->getId()."'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a></td>".
-						"<td class='td-center'><a class='btn btn-warning btn-xs' href='tickets/delete/".$t->getId()."'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></a></td>";
+				echo "<td id='".$t->getTitre()."' class='listTickets' name='".$t->getStatut()."'><b>".$t->getTitre()."</b> - ".$t->getUser()." - <span class='glyphicon glyphicon-".$icon."' aria-hidden='true'></span>&nbsp;".$t->getStatut()."</td>";
+				echo "<td class='td-center'><a name='".$t->getStatut()."' class='btn btn-primary btn-xs statut' id='".$t->getTitre()."' href='tickets/updateStatut/".$t->getId()."'>Statut</a></td>".
+						"<td class='td-center'><a class=' btn btn-primary btn-xs' href='tickets/frm/".$t->getId()."'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a></td>".
+						"<td class='td-center'><a name='".$t->getTitre()."' class='btn btn-warning btn-xs delete' href='tickets/delete/".$t->getId()."'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></a></td>";
 				echo "</tr>";
 			}
 			echo "</tbody>";
 			echo "</table>";
-			echo "<a class='btn btn-primary' href='tickets/frm'>Ajouter...</a> &nbsp; ";
+			echo "<a class='btn btn-primary ajout' href='tickets/frm'>Ajouter...</a> &nbsp; ";
 			echo "<a class='btn btn-primary' href='tickets/ticketAdmin'>Mes tickets</a>";
 		}
 		else{

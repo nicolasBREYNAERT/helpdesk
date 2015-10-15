@@ -12,7 +12,7 @@
 		$disabled="";
 		if($lStatut->getOrdre()<=$ticket->getStatut()->getOrdre())
 			$disabled="disabled";
-		echo "<input type='radio' ".$disabled." id='idStatut'".$lStatut->getId()."' name='idStatut' value=".$lStatut->getId()."><label class='control-label' ".$disabled." for='idStatut".$lStatut->getId()."'>&nbsp;".$lStatut."</label></br>";
+		echo "<input type='radio' ".$disabled." class='rStatut' id='idStatut'".$lStatut->getId()."' name='idStatut' value=".$lStatut->getId()."><label class='control-label' ".$disabled." for='idStatut".$lStatut->getId()."'>&nbsp;".$lStatut."</label></br>";
 	}?>
 	<label>Emetteur</label>
 	<div class="form-control" disabled><?php echo $ticket->getUser()?></div>
@@ -23,7 +23,7 @@
 	<input type="hidden" name="idCategorie" value="<?php echo $ticket->getCategorie()->getId()?>">
 </div>
 <div class="form-group">
-	<input type="submit" value="Valider" class="btn btn-default">
+	<input type="submit" value="Valider" class="btn btn-default valid">
 	<a class="btn btn-default" href="<?php echo $config["siteUrl"]?>tickets">Annuler</a>
 </div>
 </fieldset>

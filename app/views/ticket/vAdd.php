@@ -9,15 +9,15 @@
 <div class="form-group">
 	<input type="hidden" name="id" value="<?php echo $ticket->getId()?>">
 	<label for="type">Type</label>
-	<select class="form-control" name="type">
+	<select class="form-control type" name="type">
 	<?php echo $listType;?>
 	</select>
 	<label for="idCategorie">Catégorie</label>
-	<select class="form-control" name="idCategorie">
+	<select class="form-control categorie" name="idCategorie">
 	<?php echo $listCat;?>
 	</select>
 	<label for="titre">Titre</label>
-	<input type="text" name="titre" id="titre" value="<?php echo $ticket->getTitre()?>" placeholder="Entrez le titre" class="form-control">
+	<input class="titre" type="text" name="titre" id="titre" value="<?php echo $ticket->getTitre()?>" placeholder="Entrez le titre" class="form-control">
 	<label for="description">Description</label>
 	<textarea name="description" id="description" placeholder="Entrez la description" class="form-control"><?php echo $ticket->getDescription()?></textarea>
 </div>
@@ -33,7 +33,7 @@
 	<input type="hidden" name="idUser" value="<?php echo $ticket->getUser()->getId()?>">
 </div>
 <div class="form-group">
-	<input type="submit" value="Valider" class="btn btn-default">
+	<input type="submit" value="Valider" class="btn btn-default valid">
 	<a class="btn btn-default" href="<?php echo $config["siteUrl"]?>tickets">Annuler</a>
 </div>
 </fieldset>

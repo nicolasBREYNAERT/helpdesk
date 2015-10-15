@@ -42,7 +42,7 @@ class Statut extends Base{
 	}
 
 	public function toString(){
-		return "<span class='glyphicon glyphicon-".$this->icon."' aria-hidden='true'></span>&nbsp;".$this->libelle;
+		return $this->libelle;
 	}
 
 	public function getIcon() {
