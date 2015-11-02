@@ -36,36 +36,67 @@ class DefaultC extends BaseController {
 			$this->loadView("main/vEchecConnexion");
 		}
 	}
-	public function modification($champ){
-		$this->loadView("main/vHeader");
-		if ($champ[0]=="login"){
-			//$this->loadView("main/vLogin",array("login"=>$champ));
-			echo '<div class="login col-md-2 col-md-offset-5">'.$_SESSION["login"].'</div>';
-			echo "<button id='btClose' class='btn btn-primary'>Fermer</button>";
-			Jquery::bindMethods(true,false);
-			Jquery::getOn("click", ".list-group-item", "users/frm","#response");
-			Jquery::doJqueryOn(".ck", "click", "$(event.target).parent()", "toggleClass",array("disabled","$(event.target).prop('checked')"));
-			Jquery::doJqueryOn(".list-group-item", "mouseenter", "this", "addClass",array("active"));
-			Jquery::doJqueryOn(".list-group-item", "mouseout", "this", "removeClass","active");
-			Jquery::doJqueryOn("#btClose", "click", "#response", "html","");
-			Jquery::doJqueryOn("#btClose", "click", "#main", "show");
-			Jquery::doJquery("#main", "hide");
-			echo Jquery::compile();
-		}elseif ($champ[0]=="password"){
-			$this->loadView("main/vPassword",array("password"=>$champ));
-		}elseif($champ[0]=="mail"){
-			$this->loadView("main/vMail",array("mail"=>$champ));
-		}
+	public function ajaxLogin(){
+		echo '<div class="login col-md-2 col-md-offset-4"><b>Votre login est : </b>'.$_SESSION["login"].'</div>';
+		echo '<br><form method="post" action="Users/update" id="modifLogin" name="modifLogin">';
+		echo '	<br>
+				<input name="id" type="hidden">
+				<input type="text" class="col-md-3 col-md-offset-4" name="login" placeholder="Entrez votre nouveau login ...">
+				<br>
+				<br>
+			</form>';
+		echo '<button id="brValidate" class="btn btn-primary col-md-1 col-md-offset-4">Valider</button>';
+		echo '<button id="btClose"" class="btn btn-primary col-md-1 col-md-offset-1">Retour</button>';
+		Jquery::bindMethods(true,false);
+		Jquery::getOn("click", ".login", "users/frm","#response");
+		Jquery::doJqueryOn(".ck", "click", "$(event.target).parent()", "toggleClass",array("disabled","$(event.target).prop('checked')"));
+		Jquery::doJqueryOn(".list-group-item", "mouseenter", "this", "addClass",array("active"));
+		Jquery::doJqueryOn(".list-group-item", "mouseout", "this", "removeClass","active");
+		Jquery::doJqueryOn("#btClose", "click", "#response", "html","");
+		Jquery::doJqueryOn("#btClose", "click", "#main", "show");
+		Jquery::postFormOn("click", "#brValidate", "Users/update", "modifLogin");
+		Jquery::doJqueryOn("#brValidate", "click", "#response", "html");
+		Jquery::doJqueryOn("#brValidate", "click", "#main", "show");
+		Jquery::doJquery("#main", "hide");
+		echo Jquery::compile();
 	}
-	
+	public function ajaxPassword(){
+		echo '<div class="login col-md-2 col-md-offset-4"><b>Votre mot de passe est : </b><input class="form-control" type="password" value="'.$_SESSION["password"].'" disabled></div>';
+		echo '<br><form method="post" action="Users/update" id="modifPassword" name="modifPassword">';
+		echo '	<br><br>
+				<input name="id" type="hidden">
+				<input type="text" class="col-md-3 col-md-offset-4" name="login" placeholder="Entrez votre nouveau Password ...">
+				<br>
+				<br>
+			</form>';
+		echo '<button id="brValidate" class="btn btn-primary col-md-1 col-md-offset-4">Valider</button>';
+		echo '<button id="btClose"" class="btn btn-primary col-md-1 col-md-offset-1">Retour</button>';
+		Jquery::bindMethods(true,false);
+		Jquery::getOn("click", ".login", "users/frm","#response");
+		Jquery::doJqueryOn(".ck", "click", "$(event.target).parent()", "toggleClass",array("disabled","$(event.target).prop('checked')"));
+		Jquery::doJqueryOn(".list-group-item", "mouseenter", "this", "addClass",array("active"));
+		Jquery::doJqueryOn(".list-group-item", "mouseout", "this", "removeClass","active");
+		Jquery::doJqueryOn("#btClose", "click", "#response", "html","");
+		Jquery::doJqueryOn("#btClose", "click", "#main", "show");
+		Jquery::postFormOn("click", "#brValidate", "Users/update", "modifPassword");
+		Jquery::doJqueryOn("#brValidate", "click", "#response", "html");
+		Jquery::doJqueryOn("#brValidate", "click", "#main", "show");
+		Jquery::doJquery("#main", "hide");
+		echo Jquery::compile();
+	}
+		
 	public function information(){
 		$user=$_SESSION["login"];
 		$password=$_SESSION["password"];
 		$use=DAO::getAll("User","login=$user && password=$password");
 		$this->loadView("main/vHeader");
 		$this->loadView("main/modif",array("user"=>$use[0],"login"=>$user,"password"=>$password));
+		
 	}
-	
+	public function ModifLogin(){
+		$newLogin=$_POST["login"];
+		
+	}
 	/**
 	 * Affiche la page par défaut du site
 	 * @see BaseController::index()

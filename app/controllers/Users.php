@@ -6,7 +6,7 @@
  * @package helpdesk.controllers
  */
 class Users extends \_DefaultController {
-
+	
 	public function Users(){
 		parent::__construct();
 		$this->title="Utilisateurs";
