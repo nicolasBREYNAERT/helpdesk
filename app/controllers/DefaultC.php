@@ -39,13 +39,23 @@ class DefaultC extends BaseController {
 	public function modification($champ){
 		$this->loadView("main/vHeader");
 		if ($champ[0]=="login"){
-			$this->loadView("main/vLogin",array("login"=>$champ));
+			//$this->loadView("main/vLogin",array("login"=>$champ));
+			echo '<div class="login col-md-2 col-md-offset-5">'.$_SESSION["login"].'</div>';
+			echo "<button id='btClose' class='btn btn-primary'>Fermer</button>";
+			Jquery::bindMethods(true,false);
+			Jquery::getOn("click", ".list-group-item", "users/frm","#response");
+			Jquery::doJqueryOn(".ck", "click", "$(event.target).parent()", "toggleClass",array("disabled","$(event.target).prop('checked')"));
+			Jquery::doJqueryOn(".list-group-item", "mouseenter", "this", "addClass",array("active"));
+			Jquery::doJqueryOn(".list-group-item", "mouseout", "this", "removeClass","active");
+			Jquery::doJqueryOn("#btClose", "click", "#response", "html","");
+			Jquery::doJqueryOn("#btClose", "click", "#main", "show");
+			Jquery::doJquery("#main", "hide");
+			echo Jquery::compile();
 		}elseif ($champ[0]=="password"){
 			$this->loadView("main/vPassword",array("password"=>$champ));
 		}elseif($champ[0]=="mail"){
 			$this->loadView("main/vMail",array("mail"=>$champ));
 		}
-		
 	}
 	
 	public function information(){
