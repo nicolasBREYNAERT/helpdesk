@@ -13,8 +13,14 @@
 		<br>
 		<div class="form-group">
 			<center><input type="submit" value="connexion" class="btn btn-default"></center>
+			<input type="checkbox" name="cookie" value="cookie"> Rester connecté ?
 		</div>
 	</fieldset>
 </form>
 </div>
 </div>
+<?php 
+if(isset($_COOKIE["utilisateur"])){
+	echo $_COOKIE["utilisateur"];
+}
+?>

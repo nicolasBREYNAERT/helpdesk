@@ -75,10 +75,10 @@ class Tickets extends \_DefaultController {
 			$id=$ticket->getId();
 		}
 		$messages=DAO::getAll("Message","idTicket=$id");
-		$this->loadView("ticket/vMessages",array("ticket"=>$ticket,"messages"=>$messages));
-		echo Jquery::execute("CKEDITOR.replace('message');");
+		$this->loadView("ticket/vMessages",array("ticket"=>$ticket,"messages"=>$messages)); 
 		//EN COUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUURS !! 
 	}
+	
 	
 	
 	public function messages($id){

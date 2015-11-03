@@ -7,6 +7,7 @@
 			<label>Entrez un nouveau login :</label>
 			<br>
 			<input type="text" class="form-control" name="login">
+
 		</form>
 	</div>
 </div>

@@ -12,6 +12,7 @@ use micro\views\Gui;
 class DefaultC extends BaseController {
 
 	public function connexion(){
+		
 		$user=$_POST["login"];
 		$password=$_POST["password"];
 		$use=DAO::getAll("User");
@@ -19,6 +20,10 @@ class DefaultC extends BaseController {
 		foreach ($use as $u){
 			$toto=crypt($u->getPassword());
 			if($u->getLogin()==$user && $toto=crypt($password,$toto)){
+				if(isset($_POST["cookie"])){
+					$expire = 365*24*3600; // on définit la durée du cookie, 1 an
+					setcookie("utilisateur",$u,time()+$expire);  // on l'envoi;
+				}
 				$x=1;
 				$_SESSION["user"]=$u;
 				$_SESSION["password"]=$password;
