@@ -108,7 +108,6 @@ class DefaultC extends BaseController {
 	public function index() {
 		//co automatique
 		if(isset($_COOKIE["utilisateur"])){
-			echo "coucou je suis un cookie";
 			$recupUser=$_COOKIE["utilisateur"];
 			$use=DAO::getAll("User");
 			foreach ($use as $u){
@@ -168,9 +167,7 @@ class DefaultC extends BaseController {
 		$_SESSION['KCFINDER'] = array(
 				'disabled' => true
 		);
-		//zefgyzeryofgozeryfgzeryiofgoy
 		if(isset($_COOKIE["utilisateur"])){
-			echo "coucou je veux TUER un cookie !!!";
 			setCookie("utilisateur", "", -3600,"/");
 		}
 		$this->index();
