@@ -44,10 +44,11 @@ class DefaultC extends BaseController {
 		}
 	}
 	public function ajaxLogin(){
+		$idUser=$_SESSION["user"]->getId();
 		echo '<div class="login col-md-2 col-md-offset-4"><b>Votre login est : </b>'.$_SESSION["login"].'</div>';
 		echo '<br><form method="post" action="Users/update" id="modifLogin" name="modifLogin">';
 		echo '	<br>
-				<input name="id" type="hidden">
+				<input name="id" id="id" type="hidden" value="'.$idUser.'">
 				<input type="text" class="col-md-3 col-md-offset-4" name="login" placeholder="Entrez votre nouveau login ...">
 				<br>
 				<br>
@@ -113,6 +114,8 @@ class DefaultC extends BaseController {
 			foreach ($use as $u){
 				if($u->getLogin()==$recupUser){
 					$_SESSION["user"]=$u;
+					$_SESSION["login"]=$u->getLogin();
+					$_SESSION["password"]=$u->getPassword();
 				}
 			}
 		}

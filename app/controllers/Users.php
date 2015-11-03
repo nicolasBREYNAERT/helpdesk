@@ -41,6 +41,8 @@ class Users extends \_DefaultController {
 				try{
 					DAO::update($object);
 					$msg=new DisplayedMessage($this->model." `{$object->toString()}` mis à jour");
+					$_SESSION["login"]=$object->getLogin();
+					$_SESSION["password"]=$object->getPassword();
 				}catch(Exception $e){
 					$msg=new DisplayedMessage("Impossible de modifier l'instance de ".$this->model,"danger");
 				}
