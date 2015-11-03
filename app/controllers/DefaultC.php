@@ -17,7 +17,8 @@ class DefaultC extends BaseController {
 		$use=DAO::getAll("User");
 		$x=0;
 		foreach ($use as $u){
-			if($u->getLogin()==$user && $u->getPassword()==$password){
+			$toto=crypt($u->getPassword());
+			if($u->getLogin()==$user && $toto=crypt($password,$toto)){
 				$x=1;
 				$_SESSION["user"]=$u;
 				$_SESSION["password"]=$password;
@@ -93,10 +94,7 @@ class DefaultC extends BaseController {
 		$this->loadView("main/modif",array("user"=>$use[0],"login"=>$user,"password"=>$password));
 		
 	}
-	public function ModifLogin(){
-		$newLogin=$_POST["login"];
-		
-	}
+
 	/**
 	 * Affiche la page par défaut du site
 	 * @see BaseController::index()
