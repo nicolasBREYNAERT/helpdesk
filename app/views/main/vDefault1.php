@@ -19,8 +19,3 @@
 </form>
 </div>
 </div>
-<?php 
-if(isset($_COOKIE["utilisateur"])){
-	echo $_COOKIE["utilisateur"];
-}
-?>

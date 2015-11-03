@@ -3,6 +3,7 @@ use micro\orm\DAO;
 use micro\js\Jquery;
 use micro\controllers\BaseController;
 use micro\views\Gui;
+use phpDocumentor\Reflection\DocBlock\Serializer;
 /**
  * Contrôleur par défaut (défini dans config => documentRoot)
  * @author jcheron
@@ -22,7 +23,7 @@ class DefaultC extends BaseController {
 			if($u->getLogin()==$user && $toto=crypt($password,$toto)){
 				if(isset($_POST["cookie"])){
 					$expire = 365*24*3600; // on définit la durée du cookie, 1 an
-					setcookie("utilisateur",$u,time()+$expire);  // on l'envoi;
+					setcookie("utilisateur",$u->getLogin(),time()+$expire,"/");  // on l'envoi;
 				}
 				$x=1;
 				$_SESSION["user"]=$u;
@@ -105,6 +106,17 @@ class DefaultC extends BaseController {
 	 * @see BaseController::index()
 	 */
 	public function index() {
+		//co automatique
+		if(isset($_COOKIE["utilisateur"])){
+			echo "coucou je suis un cookie";
+			$recupUser=$_COOKIE["utilisateur"];
+			$use=DAO::getAll("User");
+			foreach ($use as $u){
+				if($u->getLogin()==$recupUser){
+					$_SESSION["user"]=$u;
+				}
+			}
+		}
 		$this->loadView("main/vHeader",array("infoUser"=>Auth::getInfoUser()));
 		if(isset($_SESSION["user"])){
 			$this->loadView("main/vDefault",array("infoUser"=>Auth::getInfoUser()));
@@ -156,6 +168,11 @@ class DefaultC extends BaseController {
 		$_SESSION['KCFINDER'] = array(
 				'disabled' => true
 		);
+		//zefgyzeryofgozeryfgzeryiofgoy
+		if(isset($_COOKIE["utilisateur"])){
+			echo "coucou je veux TUER un cookie !!!";
+			setCookie("utilisateur", "", -3600,"/");
+		}
 		$this->index();
 	}
 
