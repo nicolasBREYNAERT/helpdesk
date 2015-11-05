@@ -38,7 +38,11 @@ class Ticket extends Base{
 	 * @OneToMany(mappedBy="ticket",className="Message")
 	 */
 	private $messages;
-	
+
+	/**
+	 * @ManyToOne
+	 * @JoinColumn(name="idAffectation",className="User",nullable=true)
+	 */
 	private $affectation;
 
 	public function getId() {

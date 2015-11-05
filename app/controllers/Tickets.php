@@ -21,27 +21,34 @@ class Tickets extends \_DefaultController {
 		if ($_SESSION["admin"] == "1"){
 			$nouveaux=DAO::getAll("Ticket","idStatut=1");
 			$this->loadView("ticket/vNouveaux", array("nouveaux"=>$nouveaux));
+			//APPELER UNE NOUVELLE VUE CONTENANT LES NOUVEAUX TICKETS
+			$listDesNewTickets=DAO::getAll("Ticket", "idAffectation is NULL");
+			$technicien=DAO::getAll("user","technicien=1");
+			$listTechnicien=Gui::select($technicien, "Selectionner un technicien...");
+			$this->loadView("ticket/vListNouveaux", array("listNouveaux"=>$listDesNewTickets,"listTechnicien"=>$listTechnicien));
+			
+			echo "<legend>Tickets affectés</legend>";
 			$ticket=DAO::getAll("Ticket", "1=1 order by idStatut");
 			echo "<table class='table table-striped'>";
 			echo "<tbody>";
 			foreach ($ticket as $t){
-				if($t->getStatut()=="Nouveau"){
-					$icon="flag";
-				}elseif($t->getStatut()=="Attribué"){
-					$icon="user";
-				}elseif($t->getStatut()=="En attente"){
-					$icon="hourglass";
-				}elseif($t->getStatut()=="Résolu"){
-					$icon="check";
-				}elseif($t->getStatut()=="Clos"){
-					$icon="off";
+				if($t->getAffectation()!=NULL){
+					if($t->getStatut()=="Nouveau"){
+						$icon="flag";
+					}elseif($t->getStatut()=="Attribué"){
+						$icon="user";
+					}elseif($t->getStatut()=="En attente"){
+						$icon="hourglass";
+					}elseif($t->getStatut()=="Résolu"){
+						$icon="check";
+					}elseif($t->getStatut()=="Clos"){
+						$icon="off";
+					}
+					echo "<tr>";
+					echo "<td id='".$t->getTitre()."' class='listTickets' name='".$t->getStatut()."'><b>".$t->getTitre()."</b> - ".$t->getUser()." - <span class='glyphicon glyphicon-".$icon."' aria-hidden='true'></span>&nbsp;".$t->getStatut()."</td>";
+					echo "<td class='td-center'><a name='".$t->getTitre()."' class='btn btn-warning btn-xs delete' href='tickets/delete/".$t->getId()."'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></a></td>";
+					echo "</tr>";
 				}
-				echo "<tr>";
-				echo "<td id='".$t->getTitre()."' class='listTickets' name='".$t->getStatut()."'><b>".$t->getTitre()."</b> - ".$t->getUser()." - <span class='glyphicon glyphicon-".$icon."' aria-hidden='true'></span>&nbsp;".$t->getStatut()."</td>";
-				echo "<td class='td-center'><a name='".$t->getStatut()."' class='btn btn-primary btn-xs statut' id='".$t->getTitre()."' href='tickets/updateStatut/".$t->getId()."'>Statut</a></td>".
-						"<td class='td-center'><a class=' btn btn-primary btn-xs' href='tickets/frm/".$t->getId()."'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a></td>".
-						"<td class='td-center'><a name='".$t->getTitre()."' class='btn btn-warning btn-xs delete' href='tickets/delete/".$t->getId()."'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></a></td>";
-				echo "</tr>";
 			}
 			echo "</tbody>";
 			echo "</table>";
@@ -151,15 +158,18 @@ class Tickets extends \_DefaultController {
 		parent::setValuesToObject($object);
 		$categorie=DAO::getOne("Categorie", $_POST["idCategorie"]);
 		$object->setCategorie($categorie);
-		$statut=DAO::getOne("Statut", $_POST["idStatut"]);
+		if ($_POST["idStatut"]==1){
+			$idStatut=2;
+		}else{
+			$idStatut=$_POST["idStatut"];
+		}
+		$statut=DAO::getOne("Statut", $idStatut);
 		$object->setStatut($statut);
 		$user=DAO::getOne("User", $_POST["idUser"]);
 		$object->setUser($user);
+		$technicien=DAO::getOne("User", $_POST["idAffectation"]);
+		$object->setAffectation($technicien);
 	}
-
-	
-
-
 
 	
 
