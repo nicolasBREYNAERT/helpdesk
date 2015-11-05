@@ -14,6 +14,7 @@ class User extends Base{
 	private $password="";
 	private $mail="";
 	private $admin=false;
+	private $technicien=false;
 
 	public function getId() {
 		return $this->id;
@@ -67,4 +68,14 @@ class User extends Base{
 		}
 		return $this->mail. "-".$this->login." (".$uType.")";
 	}
+	
+	public function getTechnicien() {
+		return $this->technicien;
+	}
+	
+	public function setTechnicien($technicien) {
+		$this->technicien=$technicien;
+		return $this;
+	}
+
 }
