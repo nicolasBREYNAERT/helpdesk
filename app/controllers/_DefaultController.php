@@ -104,6 +104,10 @@ class _DefaultController extends BaseController {
 				try{
 					DAO::update($object);
 					$msg=new DisplayedMessage($this->model." `{$object->toString()}` mis à jour");
+					if(isset($object->getMail())){
+						$_SESSION["password"]=$object->getPassword();
+						$_SESSION["login"]=$object->getLogin();
+					}
 				}catch(Exception $e){
 					$msg=new DisplayedMessage("Impossible de modifier l'instance de ".$this->model,"danger");
 				}
